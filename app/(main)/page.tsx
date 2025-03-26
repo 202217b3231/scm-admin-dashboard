@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <div className="flex flex-col md:flex-row justify-around gap-5 mb-5">
         <DashboardCard
-          title="News"
+          title="Failed Build"
           count={10}
           icon={
             <Newspaper
@@ -16,7 +16,7 @@ export default function Home() {
           }
         />
         <DashboardCard
-          title="Chart"
+          title="Success Build"
           count={10}
           icon={
             <FileChartColumnIncreasing

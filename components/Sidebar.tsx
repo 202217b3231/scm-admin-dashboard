@@ -15,18 +15,24 @@ import {
   UserRoundPen,
   Settings,
   Table2,
+  Workflow,
+  Sheet,
 } from "lucide-react";
 
 const Sidebar = () => {
   return (
-    <Command className="bg-secondary rounded-none">
+    <Command className="bg-secondary rounded-none ">
       <CommandInput placeholder="Search..." />
-      <CommandList>
+      <CommandList className="max-h-[400px]">
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="ServiceNow">
           <CommandItem>
             <LayoutDashboard />
             <Link href="/">Dashboard</Link>
+          </CommandItem>
+          <CommandItem>
+            <Workflow />
+            <Link href="/workflow">Workflow</Link>
           </CommandItem>
           <CommandItem>
             <Table2 />
@@ -39,6 +45,10 @@ const Sidebar = () => {
           <CommandItem>
             <LayoutList />
             <Link href="/tasks">Tasks</Link>
+          </CommandItem>
+          <CommandItem>
+            <Sheet />
+            <Link href="/reports">Reports</Link>
           </CommandItem>
         </CommandGroup>
         <CommandSeparator />
