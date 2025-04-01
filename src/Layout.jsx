@@ -11,7 +11,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Link, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
+import ModeToggle from "@/components/mode-toggle";
 
 const items = [
   {
@@ -42,10 +43,11 @@ const items = [
 ];
 
 export default function MainLayout() {
+  const navigate = useNavigate();
+
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
-        <SidebarTrigger className="ml-2 text-blue-400" />
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -53,11 +55,9 @@ export default function MainLayout() {
               <SidebarMenu>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
+                    <SidebarMenuButton onClick={() => navigate(item.url)}>
+                      <item.icon />
+                      <span>{item.title}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -65,6 +65,8 @@ export default function MainLayout() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+        <SidebarTrigger className="ml-1 text-blue-400" />
+        <ModeToggle />
       </Sidebar>
       <Outlet />
     </SidebarProvider>
