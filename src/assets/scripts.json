@@ -2,21 +2,33 @@
   {
     "title": "Search Task",
     "body": "javascript:(function(){let cis = prompt('Search');let ci = cis.split(' '); ci.forEach((a) => {let urls = `https://jnjprod.service-now.com/text_search_exact_match.do?sysparm_search=${a}`; window.open(urls, '_blank')});})();",
-    "tags": ["bookmarklet", "javascript"]
+    "tags": [
+      "bookmarklet",
+      "javascript"
+    ]
   },
   {
     "title": "Get AWS Account Info",
     "body": "javascript: (function () { const accountName = prompt('Enter account name'); if (!accountName) return; const url = `https://jnjprod.service-now.com/cmdb_ci_aws_account_list.do?sysparm_nostack=true&sysparm_first_row=1&sysparm_query=GOTO123TEXTQUERY321=itx-${accountName}`; fetch(url) .then(response => { if (!response.ok) { throw new Error('Network response was not ok.'); } return response.text(); }) .then(html => { const tempElement = document.createElement('div'); tempElement.innerHTML = html; const accountTableRows = tempElement.querySelectorAll('#cmdb_ci_aws_account_table > tbody > tr > td'); if (accountTableRows.length < 11) { throw new Error('Account information is incomplete.'); } const accountId = accountTableRows[6].innerText; const accountNumber = accountTableRows[5].innerText; const environment = accountTableRows[10].innerText; const details = `Account ID: ${accountId}\\n\\nAccount Number: ${accountNumber}\\n\\nEnvironment: ${environment}`; if (accountId) { navigator.clipboard.writeText(accountNumber); console.log(details); alert(details); } else { throw new Error('Account ID or Environment is missing.'); } }) .catch(error => { console.error('Error fetching data:', error); alert('An error occurred: ' + error.message); });})();",
-    "tags": ["bookmarklet", "javascript"]
+    "tags": [
+      "bookmarklet",
+      "javascript"
+    ]
   },
   {
     "title": "Download All Jira Attachments",
     "body": "javascript:(function() { let drop = document.querySelector('#attachment_thumbnails'); if (!drop) { alert('Attachment container not found!'); return; } let count = 0; let links = []; drop.childNodes.forEach(a => { let link = a.querySelector('a'); if (link && !link.title.startsWith('CVE')) { links.push(link.href); count++; } }); let confirmDownload = confirm(`Download ${count} attachments?`); if (confirmDownload) { links.forEach(href => { window.open(href, '_blank'); }); }})();",
-    "tags": ["bookmarklet", "javascript"]
+    "tags": [
+      "bookmarklet",
+      "javascript"
+    ]
   },
   {
     "title": "Fill Change Impact Analysis",
     "body": "javascript:(function (){let g_form = window?.g_form || frames[0]?.g_form; g_form.setValue('u_what_is_the_type_of_change', 'None of the above'); document.querySelector('#choice\\.change_request\\.u_what_is_the_type_of_change').value = 'None of the above'; g_form.setValue('u_is_there_impact_on_other_systems_apps_interface', 'No'); document.querySelector('#change_request\\.u_is_there_impact_on_other_systems_apps_interfaces').value = 'No'; document.querySelector('#choice\\.change_request\\.u_will_a_data_platform_or_system_receive_consume_data_from_your_system_ie_edl_c').value = 'Other'; g_form.setValue('u_is_there_impact_on_system_sdlc_and_or_qms_documentation_i_e_training_update_o', 'No'); g_form.setValue('u_multi_line_strg_for_type_of_change', 'OS Blueprints are refreshed with latest security patches'); g_form.setValue('u_imp_analy_comments_3', 'No data or system update'); })();",
-    "tags": ["bookmarklet", "javascript"]
+    "tags": [
+      "bookmarklet",
+      "javascript"
+    ]
   }
 ]
