@@ -18,5 +18,10 @@
     "title": "Fill Change Impact Analysis",
     "body": "javascript:(function (){let g_form = window?.g_form || frames[0]?.g_form; g_form.setValue('u_what_is_the_type_of_change', 'None of the above'); document.querySelector('#choice\\.change_request\\.u_what_is_the_type_of_change').value = 'None of the above'; g_form.setValue('u_is_there_impact_on_other_systems_apps_interface', 'No'); document.querySelector('#change_request\\.u_is_there_impact_on_other_systems_apps_interfaces').value = 'No'; document.querySelector('#choice\\.change_request\\.u_will_a_data_platform_or_system_receive_consume_data_from_your_system_ie_edl_c').value = 'Other'; g_form.setValue('u_is_there_impact_on_system_sdlc_and_or_qms_documentation_i_e_training_update_o', 'No'); g_form.setValue('u_multi_line_strg_for_type_of_change', 'OS Blueprints are refreshed with latest security patches'); g_form.setValue('u_imp_analy_comments_3', 'No data or system update'); })();",
     "tags": ["bookmarklet", "javascript"]
+  },
+  {
+"":"",
+    "":"",
+    "":[]
   }
 ]
