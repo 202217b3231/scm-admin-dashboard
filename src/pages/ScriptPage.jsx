@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,6 +56,21 @@ const ScriptPage = () => {
     }
   };
 
+  function fetchNotes() {
+    const storedNotes = localStorage.getItem("notes");
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes));
+    }
+  }
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     toast("Copied to clipboard!");
@@ -74,8 +89,8 @@ const ScriptPage = () => {
     setTag(value);
     setFilteredTags(
       tagSuggestions.filter((t) =>
-        t.toLowerCase().includes(value.toLowerCase()),
-      ),
+        t.toLowerCase().includes(value.toLowerCase())
+      )
     );
   };
   const handleTagKeyDown = (e) => {
@@ -125,7 +140,7 @@ const ScriptPage = () => {
             .filter(
               (note) =>
                 note.title.toLowerCase().includes(search.toLowerCase()) ||
-                note.tag.toLowerCase().includes(search.toLowerCase()),
+                note.tag.toLowerCase().includes(search.toLowerCase())
             )
             .map((note, index) => (
               <Card
@@ -167,7 +182,7 @@ const ScriptPage = () => {
         </div>
 
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-          <DialogContent className="min-w-[60vw] min-h-[80vh] m-0 bg-slate-200 ">
+          <DialogContent className="min-w-[60vw] min-h-[80vh] m-0 bg-white ">
             <DialogHeader>
               <DialogTitle>
                 {editMode ? "Edit Note" : "Create Note"}
