@@ -65,8 +65,15 @@ export default function MainLayout() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarTrigger className="ml-1 text-blue-400" />
-        <ModeToggle />
+        <SidebarGroup>
+          <SidebarGroupLabel>Ctrl+B to hide/show</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <ModeToggle />
+              <SidebarTrigger className="ml-1 text-blue-400" />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </Sidebar>
       <Outlet />
     </SidebarProvider>

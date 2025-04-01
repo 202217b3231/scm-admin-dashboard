@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { Copy } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Copy, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +15,6 @@ import { toast } from "sonner";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -22,8 +22,10 @@ import {
 import { Link } from "react-router-dom";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import useLocalStorage from "@/hooks/useLocalStorage";
+
 const ScriptPage = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useLocalStorage("notes", []);
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -39,6 +41,7 @@ const ScriptPage = () => {
     "Todo",
   ]);
   const [filteredTags, setFilteredTags] = useState([]);
+
   const addOrUpdateNote = () => {
     if (title.trim() && body.trim()) {
       if (editMode) {
@@ -56,20 +59,23 @@ const ScriptPage = () => {
     }
   };
 
-  function fetchNotes() {
-    const storedNotes = localStorage.getItem("notes");
-    if (storedNotes) {
-      setNotes(JSON.parse(storedNotes));
+  const handleTagChange = (e) => {
+    const value = e.target.value;
+    setTag(value);
+    setFilteredTags(
+      tagSuggestions.filter((t) =>
+        t.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  };
+
+  const handleTagKeyDown = (e) => {
+    if (e.key === "Enter" && filteredTags.length > 0) {
+      e.preventDefault();
+      setTag(filteredTags[0]);
+      setFilteredTags([]);
     }
-  }
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
+  };
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
@@ -84,30 +90,63 @@ const ScriptPage = () => {
     setEditMode(true);
     setModalOpen(true);
   };
-  const handleTagChange = (e) => {
-    const value = e.target.value;
-    setTag(value);
-    setFilteredTags(
-      tagSuggestions.filter((t) =>
-        t.toLowerCase().includes(value.toLowerCase())
-      )
-    );
+
+  const removeNote = (index) => {
+    const removedNote = notes[index];
+    const updatedNotes = notes.filter((_, i) => i !== index);
+    setNotes(updatedNotes);
+    toast("Note removed!", {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          setNotes((prevNotes) => [
+            ...prevNotes.slice(0, index),
+            removedNote,
+            ...prevNotes.slice(index),
+          ]);
+        },
+      },
+    });
   };
-  const handleTagKeyDown = (e) => {
-    if (e.key === "Enter" && filteredTags.length > 0) {
-      e.preventDefault();
-      setTag(filteredTags[0]);
-      setFilteredTags([]);
+
+  const fetchNotesFromLink = async () => {
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/202217b3231/scm-admin-dashboard/refs/heads/master/src/assets/scripts.json"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch notes");
+      }
+      const data = await response.json();
+      const fetchedNotes = data.map(({ title, body, tags }) => ({
+        title,
+        body,
+        tag: tags.join(", "),
+      }));
+
+      setNotes((prevNotes) => {
+        const existingTitles = new Set(prevNotes.map((note) => note.title));
+        const uniqueFetchedNotes = fetchedNotes.filter(
+          (note) => !existingTitles.has(note.title)
+        );
+        return [...prevNotes, ...uniqueFetchedNotes];
+      });
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+      toast.error("Failed to fetch notes");
     }
   };
+
+  useEffect(() => {
+    fetchNotesFromLink();
+  }, []);
+
   return (
     <div className="ml-5">
       <Breadcrumb className="mt-1 mb-2">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink>
-              <Link to="/">Home</Link>
-            </BreadcrumbLink>
+            <Link to="/">Home</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -133,6 +172,17 @@ const ScriptPage = () => {
           >
             Create Note
           </Button>
+          <Button
+            variant="secondary"
+            onClick={fetchNotesFromLink}
+            className="mb-4"
+          >
+            Refresh Notes
+          </Button>
+          <Label className="m-3 text-sm bg-amber-200 px-2 py-1 rounded-full whitespace-nowrap">
+            <span className="text-blue-600 font-medium">Ctrl+D</span> to add
+            bookmark
+          </Label>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -146,7 +196,7 @@ const ScriptPage = () => {
               <Card
                 key={index}
                 onClick={() => setSelectedNote(note)}
-                className="cursor-pointer "
+                className="cursor-pointer bg-gray-50 hover:bg-blue-100 transition-colors"
               >
                 <CardContent>
                   <h3 className="font-bold text-lg">{note.title}</h3>
@@ -164,7 +214,7 @@ const ScriptPage = () => {
                         copyToClipboard(note.body);
                       }}
                     >
-                      <Copy />
+                      <Copy className="text-green-600" />
                     </Button>
                     <Button
                       variant="icon"
@@ -173,7 +223,16 @@ const ScriptPage = () => {
                         editNote(index);
                       }}
                     >
-                      Edit
+                      <Edit className="text-blue-600" />
+                    </Button>
+                    <Button
+                      variant="icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeNote(index);
+                      }}
+                    >
+                      <Trash2 className="text-red-600" />
                     </Button>
                   </div>
                 </CardContent>
