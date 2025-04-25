@@ -1,7 +1,6 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -13,9 +12,7 @@ const SettingsPage = () => {
       <Breadcrumb className="mt-1 ml-2 mb-3">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink>
-              <Link to="/">Home</Link>
-            </BreadcrumbLink>
+            <Link to="/">Home</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

@@ -1,17 +1,28 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./jsconfig.app.json"
-    },
-    {
-      "path": "./jsconfig.app.json"
-    }
-  ],
   "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    "jsx": "preserve",
+
+    "noEmit": true,
+    "incremental": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
-  }
+    },
+
+    "target": "ES2017"
+  },
+  "include": ["src/**/*.js", "src/**/*.jsx"],
+  "exclude": ["node_modules", "build", "dist", "coverage"]
 }

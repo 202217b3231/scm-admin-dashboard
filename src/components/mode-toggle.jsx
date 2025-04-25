@@ -1,7 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
-import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 export default function ModeToggle() {
   const { theme, setTheme } = useTheme();
@@ -16,7 +15,7 @@ export default function ModeToggle() {
   return (
     <>
       <Button
-        variant="icon"
+        variant="ghost"
         size="icon"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >

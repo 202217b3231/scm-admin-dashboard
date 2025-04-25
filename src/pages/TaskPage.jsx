@@ -13,7 +13,7 @@ const TaskPage = () => {
       <Breadcrumb className="mt-1 ml-2 mb-3">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink>
+            <BreadcrumbLink asChild>
               <Link to="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
