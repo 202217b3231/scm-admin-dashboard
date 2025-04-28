@@ -99,7 +99,7 @@ export default function DataForm({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto p-0 bg-white border shadow-lg rounded-md"
+          className="w-auto p-0 border shadow-lg rounded-md"
           align="start"
         >
           <Calendar
@@ -109,6 +109,7 @@ export default function DataForm({
             selected={dates}
             onSelect={setDates}
             numberOfMonths={2}
+            className="custom-calendar"
           />
         </PopoverContent>
       </Popover>

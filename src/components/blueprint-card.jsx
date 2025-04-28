@@ -17,6 +17,7 @@ const BlueprintCard = ({
   blueprints,
   handleRowClick,
   fetchBlueprints,
+  isAmi,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -75,13 +76,15 @@ const BlueprintCard = ({
                 <span className="text-3xl mb-2">&times;</span>
               </Button>
             )}
-            <Button
-              variant="icon"
-              onClick={handleFetchBlueprints}
-              disabled={isFetching}
-            >
-              <span className="text-xl">{isFetching ? "⏳" : "🔄"}</span>
-            </Button>
+            {!isAmi && (
+              <Button
+                variant="icon"
+                onClick={handleFetchBlueprints}
+                disabled={isFetching}
+              >
+                <span className="text-xl">{isFetching ? "⏳" : "🔄"}</span>
+              </Button>
+            )}
           </div>
 
           <datalist id="suggestions">

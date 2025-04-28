@@ -1,13 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Separator } from "@/components/ui/separator";
 
 const ErrorCard = ({ title, errors, isLoading, fetchError, consoleLink }) => {
   return (
@@ -31,26 +24,26 @@ const ErrorCard = ({ title, errors, isLoading, fetchError, consoleLink }) => {
         {isLoading ? (
           <div className="text-center p-4">Loading...</div>
         ) : (
-          <ScrollArea className="h-50 overflow-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Error</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+          <span className="flex flex-col gap-2 text-xl">
+            <Separator
+              orientation="horizontal"
+              className="bg-gray-500 w-full"
+            />
+            {errors.length === 0 ? (
+              <div className="p-2">No errors found</div>
+            ) : (
+              <ScrollArea className="h-50 rounded-md">
                 {errors.map((error, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{error}</TableCell>
-                  </TableRow>
+                  <div key={index} className="p-2">
+                    {error}
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
-          </ScrollArea>
+              </ScrollArea>
+            )}
+          </span>
         )}
       </CardContent>
     </Card>
   );
 };
-
 export default ErrorCard;

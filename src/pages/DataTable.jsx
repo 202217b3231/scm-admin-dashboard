@@ -37,7 +37,7 @@ function useDates() {
 
 function useColumnsData() {
   const initialColumns = [
-    { name: "ID", tableName: "sys_user", key: 0 },
+    { name: "ID", tableName: "sys_user", key: "id", immutable: true },
     { name: "Incident", tableName: "incident", key: 1 },
     { name: "Changes", tableName: "change_request", key: 2 },
     { name: "Change Task", tableName: "change_task", key: 3 },
@@ -55,7 +55,19 @@ function useColumnsData() {
     localStorage.setItem("columns", JSON.stringify(columns));
   }, [columns]);
 
-  return { defaultColumns, columns, setColumns };
+  const updateColumns = (newColumns) => {
+    const filteredColumns = newColumns.map((col) => {
+      if (col.immutable) {
+        return (
+          columns.find((existingCol) => existingCol.key === col.key) || col
+        );
+      }
+      return col;
+    });
+    setColumns(filteredColumns);
+  };
+
+  return { defaultColumns, columns, setColumns: updateColumns };
 }
 
 function useTableClipboard(columns, users) {

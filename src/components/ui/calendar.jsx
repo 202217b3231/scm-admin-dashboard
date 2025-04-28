@@ -27,13 +27,14 @@ function Calendar({
   ...props
 }) {
   const [navView, setNavView] = React.useState("days");
-  const [displayYears, setDisplayYears] = React.useState(() => {
+  const [displayYears, setDisplayYears] = React.useState();
+  React.useMemo(() => {
     const currentYear = new Date().getFullYear();
     return {
       from: currentYear - Math.floor(yearRange / 2 - 1),
       to: currentYear + Math.ceil(yearRange / 2),
     };
-  });
+  }, [yearRange]);
 
   const { onNextClick, onPrevClick, startMonth, endMonth } = props;
 
@@ -410,10 +411,7 @@ function YearGrid({
               onClick={() => {
                 setNavView("days");
                 goToMonth(
-                  new Date(
-                    displayYears.from + i,
-                    (selected | undefined)?.getMonth() ?? 0
-                  )
+                  new Date(displayYears.from + i, selected?.getMonth() ?? 0)
                 );
               }}
               disabled={navView === "years" ? isDisabled : undefined}

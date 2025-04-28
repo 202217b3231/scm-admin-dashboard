@@ -75,7 +75,11 @@ const Home = () => {
       const errorLines = text
         .split("\n")
         .filter((line) => line.toLowerCase().includes("error:"));
-      setErrors(errorLines);
+      if (errorLines.length > 0) {
+        setErrors(errorLines);
+      } else {
+        setFetchError("No errors found or check logs.");
+      }
     } catch (error) {
       setFetchError("Failed to fetch errors. Please try again.");
     } finally {
@@ -119,6 +123,7 @@ const Home = () => {
         <BlueprintCard
           title={selectedName || "Selected Blueprint"}
           blueprints={selectedStages}
+          isAmi={true}
         />
       </div>
       <div className="flex h-60 gap-2">
