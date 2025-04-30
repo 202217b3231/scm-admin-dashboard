@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 
 const ErrorCard = ({ title, errors, isLoading, fetchError, consoleLink }) => {
   return (
-    <Card className="min-w-150 shadow-xl gap-0">
+    <Card className="w-150 shadow-xl gap-0">
       <CardHeader>
         <CardTitle>
           <a
@@ -32,12 +32,14 @@ const ErrorCard = ({ title, errors, isLoading, fetchError, consoleLink }) => {
             {errors.length === 0 ? (
               <div className="p-2">No errors found</div>
             ) : (
-              <ScrollArea className="h-50 rounded-md">
-                {errors.map((error, index) => (
-                  <div key={index} className="p-2">
-                    {error}
-                  </div>
-                ))}
+              <ScrollArea className="h-40 w-150 rounded-md">
+                <div className="p-2">
+                  {errors.map((error, index) => (
+                    <div key={index} className="p-2">
+                      {error}
+                    </div>
+                  ))}
+                </div>
               </ScrollArea>
             )}
           </span>

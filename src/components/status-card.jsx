@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-const StatusCard = ({ blueprintData, orchestrateData }) => {
+const StatusCard = ({ blueprintData, orchestrateData, onStatusClick }) => {
   if (!blueprintData || !orchestrateData) {
     return (
       <Card className="min-w-150 shadow-2xl gap-0 py-4">
@@ -23,7 +23,11 @@ const StatusCard = ({ blueprintData, orchestrateData }) => {
           index === self.findIndex((b) => b.name === blueprint.name)
       ).length;
   };
-
+  const handleStatusClick = (status) => {
+    if (onStatusClick) {
+      onStatusClick(status);
+    }
+  };
   const cbSuccessCount = statusCount(blueprintData, "SUCCESS");
   const cbInProgressCount = statusCount(blueprintData, "IN_PROGRESS");
   const cbFailedCount = statusCount(blueprintData, "FAILED");
@@ -32,7 +36,7 @@ const StatusCard = ({ blueprintData, orchestrateData }) => {
   const oFailedCount = statusCount(orchestrateData, "FAILED");
 
   return (
-    <Card className="min-w-150 shadow-2xl gap-0">
+    <Card className="w-150 shadow-2xl gap-0">
       <CardHeader>
         <CardTitle>Status</CardTitle>
       </CardHeader>
@@ -42,11 +46,22 @@ const StatusCard = ({ blueprintData, orchestrateData }) => {
             <div>
               <span>Create Blueprint</span>
               <div className="flex flex-col gap-4">
-                <span className="text-green-500">
+                <span
+                  className="text-green-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("SUCCESS")}
+                >
                   Success: {cbSuccessCount}
                 </span>
-                <span className="text-red-500">Failed: {cbFailedCount}</span>
-                <span className="text-yellow-500">
+                <span
+                  className="text-red-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("FAILED")}
+                >
+                  Failed: {cbFailedCount}
+                </span>
+                <span
+                  className="text-yellow-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("IN PROGRESS")}
+                >
                   In Progress: {cbInProgressCount}
                 </span>
               </div>
@@ -58,9 +73,22 @@ const StatusCard = ({ blueprintData, orchestrateData }) => {
             <div>
               <span>Orchestrate</span>
               <div className="flex flex-col gap-4">
-                <span className="text-green-500">Success: {oSuccessCount}</span>
-                <span className="text-red-500">Failed: {oFailedCount}</span>
-                <span className="text-yellow-500">
+                <span
+                  className="text-green-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("SUCCESS")}
+                >
+                  Success: {oSuccessCount}
+                </span>
+                <span
+                  className="text-red-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("FAILED")}
+                >
+                  Failed: {oFailedCount}
+                </span>
+                <span
+                  className="text-yellow-500 hover:cursor-pointer"
+                  onClick={() => handleStatusClick("IN PROGRESS")}
+                >
                   In Progress: {oInProgressCount}
                 </span>
               </div>

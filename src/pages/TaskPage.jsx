@@ -1,29 +1,8 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 const TaskPage = () => {
-  return (
-    <div>
-      <Breadcrumb className="mt-1 ml-2 mb-3">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to="/">Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Tasks</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    </div>
-  );
+  useDocumentTitle("Tasks");
+
+  return <div></div>;
 };
 export default TaskPage;

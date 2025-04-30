@@ -4,6 +4,7 @@ import StatusCard from "../components/status-card";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ErrorCard from "../components/error-card";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 const Home = () => {
   const [selectedStages, setSelectedStages] = useState([]);
@@ -12,6 +13,8 @@ const Home = () => {
   const [isLoadingErrors, setIsLoadingErrors] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const [consoleLink, setConsoleLink] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  useDocumentTitle("Admin Dashboard");
 
   const {
     data: blueprintData,
@@ -105,6 +108,8 @@ const Home = () => {
                   "https://jenkins.eat.jnj.com/jetv-dev/job/CLOUDxBlueprintFactory/job/2_CreateBlueprint/wfapi/runs"
                 )
               }
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
             />
           </TabsContent>
           <TabsContent value="orchestrate">
@@ -117,6 +122,8 @@ const Home = () => {
                   "https://jenkins.eat.jnj.com/jetv-dev/job/CLOUDxBlueprintFactory/job/1_Orchestrate/wfapi/runs"
                 )
               }
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
             />
           </TabsContent>
         </Tabs>
@@ -137,6 +144,7 @@ const Home = () => {
         <StatusCard
           blueprintData={blueprintData}
           orchestrateData={orchestrateData}
+          onStatusClick={(status) => setSearchTerm(status)}
         />
       </div>
     </div>

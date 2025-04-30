@@ -18,11 +18,15 @@ const BlueprintCard = ({
   handleRowClick,
   fetchBlueprints,
   isAmi,
+  searchTerm: externalSearchTerm,
+  setSearchTerm: externalSetSearchTerm,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchError, setFetchError] = useState(null);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
+  const searchTerm = externalSearchTerm ?? localSearchTerm;
+  const setSearchTerm = externalSetSearchTerm ?? setLocalSearchTerm;
 
   const handleFetchBlueprints = async () => {
     setIsFetching(true);
@@ -38,11 +42,17 @@ const BlueprintCard = ({
 
   const filteredBlueprints = Array.isArray(blueprints)
     ? blueprints
-        ?.filter(
-          (blueprint) =>
-            blueprint?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            blueprint?.status.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        ?.filter((blueprint) => {
+          const filters = (searchTerm || "")
+            .toLowerCase()
+            .split(",")
+            .map((term) => term.trim().toLowerCase());
+          return filters.some(
+            (filter) =>
+              blueprint?.name.toLowerCase().includes(filter) ||
+              blueprint?.status.toLowerCase().includes(filter)
+          );
+        })
         .filter(
           (blueprint, index, self) =>
             index === self.findIndex((b) => b.name === blueprint.name)
@@ -55,7 +65,7 @@ const BlueprintCard = ({
   };
 
   return (
-    <Card className="min-w-150 shadow-xl gap-0 ">
+    <Card className="w-150 shadow-xl gap-0 ">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="min-w-fit">{title}</span>

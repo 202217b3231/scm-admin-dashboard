@@ -1,17 +1,10 @@
 import DataTable from "../components/data-table";
 import DataForm from "../components/data-form";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import useFetchTableData from "../hooks/useFetchTableData";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 function useUsers() {
   const [users, setUsers] = useState(() => {
@@ -120,6 +113,7 @@ const DataTablePage = () => {
   const { columns, defaultColumns, setColumns } = useColumnsData();
   const { copyData } = useTableClipboard(columns, users);
   const { fetchTableData, loading, setLoading } = useFetchTableData(columns);
+  useDocumentTitle("Data");
 
   const handleRefresh = async (index) => {
     const user = users[index];
@@ -145,18 +139,6 @@ const DataTablePage = () => {
 
   return (
     <div className="p-4 w-[90vw]">
-      <Breadcrumb className="mt-1 mb-2">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <Link to="/">Home</Link>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>DataTable</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
       <DataForm
         dates={dates}
         setDates={setDates}

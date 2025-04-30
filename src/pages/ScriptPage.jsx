@@ -12,13 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { Link } from "react-router-dom";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -42,6 +36,7 @@ const ScriptPage = () => {
     "Todo",
   ]);
   const [filteredTags, setFilteredTags] = useState([]);
+  useDocumentTitle("Notes");
 
   useEffect(() => {
     setIsClient(true);
@@ -185,17 +180,6 @@ const ScriptPage = () => {
 
   return (
     <div className="ml-5">
-      <Breadcrumb className="mt-1 mb-2">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <Link to="/">Home</Link>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Scripts</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
       <div className="p-4 flex flex-col min-w-[60vw]">
         <div className="flex gap-5 ">
           <div className="relative mb-4 w-[30vw]">
@@ -216,7 +200,6 @@ const ScriptPage = () => {
             )}
           </div>
           <Button
-            variant="secondary"
             onClick={() => {
               setModalOpen(true);
               setEditMode(false);
@@ -250,13 +233,11 @@ const ScriptPage = () => {
                 <Card
                   key={index}
                   onClick={() => setSelectedNote(note)}
-                  className="cursor-pointer bg-gray-50 hover:bg-blue-100 transition-colors"
+                  className="cursor-pointer "
                 >
                   <CardContent>
                     <h3 className="font-bold text-lg">{note.title}</h3>
-                    <p className="text-sm text-gray-600 line-clamp-2">
-                      {note.body}
-                    </p>
+                    <p className="text-sm line-clamp-2">{note.body}</p>
                     {note.tag && (
                       <span className="text-xs text-blue-500">#{note.tag}</span>
                     )}
@@ -298,7 +279,7 @@ const ScriptPage = () => {
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
           <DialogContent
             description="create-edit-note-description"
-            className="min-w-[60vw] max-h-[100vh] overflow-auto m-0 bg-white "
+            className="min-w-[60vw] max-h-[100vh] overflow-auto m-0 "
           >
             <DialogHeader>
               <DialogTitle>
@@ -325,11 +306,11 @@ const ScriptPage = () => {
                 onKeyDown={handleTagKeyDown}
               />
               {filteredTags.length > 0 && (
-                <div className="absolute z-10 bg-white border rounded w-full">
+                <div className="absolute z-10 border rounded w-full">
                   {filteredTags.map((t, index) => (
                     <div
                       key={index}
-                      className="p-2 cursor-pointer hover:bg-gray-200"
+                      className="p-2 cursor-pointer"
                       onClick={() => {
                         setTag(t);
                         setFilteredTags([]);
@@ -353,13 +334,19 @@ const ScriptPage = () => {
         >
           <DialogContent
             aria-describedby="view-note-description"
-            className="min-w-[70vw] bg-white max-h-[80vh] overflow-auto"
+            className="min-w-[70vw] max-h-[80vh]"
           >
             <DialogHeader>
               <DialogTitle>{selectedNote?.title}</DialogTitle>
             </DialogHeader>
             {selectedNote?.body && (
-              <SyntaxHighlighter language="javascript" style={vscDarkPlus}>
+              <SyntaxHighlighter
+                wrapLongLines
+                showLineNumbers
+                className="overflow-wrap break-words "
+                language="javascript"
+                style={vscDarkPlus}
+              >
                 {selectedNote.body}
               </SyntaxHighlighter>
             )}

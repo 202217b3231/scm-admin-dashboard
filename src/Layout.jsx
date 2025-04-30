@@ -12,7 +12,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useNavigate, Outlet } from "react-router-dom";
-import ModeToggle from "@/components/mode-toggle";
 import { useState } from "react";
 
 const items = [
@@ -80,7 +79,6 @@ export default function MainLayout() {
             <SidebarGroupLabel>Ctrl+B to hide/show</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <ModeToggle />
                 <SidebarTrigger className="ml-1 text-blue-400" />
               </SidebarMenu>
             </SidebarGroupContent>

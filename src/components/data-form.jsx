@@ -12,6 +12,17 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "sonner";
 import Settings from "./data-settings";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function DataForm({
   users,
@@ -121,15 +132,36 @@ export default function DataForm({
       >
         <Copy className="h-4 w-4" />
       </Button>
-      <Button
-        variant="destructive"
-        onClick={clearData}
-        title="Clear All User Data"
-        className="flex items-center gap-1"
-      >
-        <Trash className="h-4 w-4" />
-        Clear Data
-      </Button>
+
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="destructive"
+            title="Clear All User Data"
+            className="flex items-center gap-1"
+          >
+            <Trash size={32} />
+            Clear Data
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to clear all user data?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 text-white"
+              onClick={clearData}
+            >
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <Button
         variant="secondary"
         onClick={() => setSettingsOpen(true)}
