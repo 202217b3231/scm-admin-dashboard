@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Snow admin Dashboard",
+  "version": "2.0",
+  "description": "Reports Dashboard",
+  "author": "HJangra1",
+  "options_page": "index.html",
+  "icons": {
+    "16": "favicon.png",
+    "48": "favicon.png",
+    "128": "favicon.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "favicon.png",
+      "48": "favicon.png",
+      "128": "favicon.png"
+    }
+  },
+  "background": {
+    "service_worker": "bg.js"
+  },
+  "host_permissions": [
+    "https://*.service-now.com/*",
+    "https://jira.jnj.com/*",
+    "https://jenkins.eat.jnj.com/*"
+  ],
+  "permissions": ["activeTab", "storage", "bookmarks"],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://jenkins.eat.jnj.com https://jira.jnj.com/ https://jnjprod.service-now.com; style-src 'self' 'unsafe-inline'; object-src 'self'; media-src 'self'; frame-src 'self'; child-src 'self'; form-action 'self';"
+  }
+}
