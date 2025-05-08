@@ -26,7 +26,7 @@ function useFetchTableData(columns) {
         }
       });
 
-      console.log("Generated template URLs:", templateUrls); // Log all generated URLs
+      // console.log("Generated template URLs:", templateUrls); // Log all generated URLs
 
       const newData = {};
       const fetchPromises = columns.map(async (col, idx) => {

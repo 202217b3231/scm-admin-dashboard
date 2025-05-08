@@ -14,6 +14,14 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(null);
   const [consoleLink, setConsoleLink] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [versions, setVersions] = useState({
+    rhel7: "",
+    rhel8: "",
+    rhel9: "",
+    al2023: "",
+    oraclelinux8: "",
+  });
+
   useDocumentTitle("Admin Dashboard");
 
   const {
@@ -78,6 +86,25 @@ const Home = () => {
       const errorLines = text
         .split("\n")
         .filter((line) => line.toLowerCase().includes("error:"));
+      const versionsLine = text
+        .split("\n")
+        .filter((line) => line.toLowerCase().includes("version="));
+
+      if (versionsLine) {
+        let [_, value] = versionsLine[0].split("version=");
+        if (value) {
+          const versionKey = value.split(".")[0];
+          value =
+            value.split("-").length === 3
+              ? value.split("-")[1]
+              : value.split("-")[0];
+          setVersions((prevVersions) => ({
+            ...prevVersions,
+            [versionKey.toLowerCase()]: value,
+          }));
+        }
+      }
+
       if (errorLines.length > 0) {
         setErrors(errorLines);
       } else {
@@ -144,6 +171,7 @@ const Home = () => {
         <StatusCard
           blueprintData={blueprintData}
           orchestrateData={orchestrateData}
+          versions={versions}
           onStatusClick={(status) => setSearchTerm(status)}
         />
       </div>

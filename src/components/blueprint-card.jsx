@@ -65,7 +65,7 @@ const BlueprintCard = ({
   };
 
   return (
-    <Card className="w-150 shadow-xl gap-0 ">
+    <Card className="w-150 shadow-xl gap-0 rounded-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="min-w-fit">{title}</span>
@@ -127,7 +127,15 @@ const BlueprintCard = ({
                   key={index}
                 >
                   <TableCell>
-                    {new Date(blueprint?.startTimeMillis).toDateString()}
+                    {new Date(blueprint?.startTimeMillis).toLocaleString(
+                      "en-US",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        hour: "numeric",
+                        hour12: true,
+                      }
+                    )}
                   </TableCell>
                   <TableCell>{blueprint?.status}</TableCell>
                   <TableCell>{blueprint?.name}</TableCell>

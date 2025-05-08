@@ -1,10 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogTrigger,
+  AlertDialogDescription,
+} from "@/components/ui/alert-dialog";
+import { View } from "lucide-react";
 
-const StatusCard = ({ blueprintData, orchestrateData, onStatusClick }) => {
+import { useState } from "react";
+const StatusCard = ({
+  blueprintData,
+  orchestrateData,
+  onStatusClick,
+  versions,
+}) => {
   if (!blueprintData || !orchestrateData) {
     return (
-      <Card className="min-w-150 shadow-2xl gap-0 py-4">
+      <Card className="min-w-150 shadow-2xl rounded-sm gap-0 py-4">
         <CardHeader>
           <CardTitle>Status</CardTitle>
         </CardHeader>
@@ -36,43 +52,38 @@ const StatusCard = ({ blueprintData, orchestrateData, onStatusClick }) => {
   const oFailedCount = statusCount(orchestrateData, "FAILED");
 
   return (
-    <Card className="w-150 shadow-2xl gap-0">
+    <Card className="w-150 rounded-sm">
       <CardHeader>
         <CardTitle>Status</CardTitle>
       </CardHeader>
-      <CardContent className="m-0 p-0 flex text-3xl gap-2 px-4 py-2 font-medium text-gray-700">
+      <CardContent className="font-medium flex text-xl gap-2 text-gray-700">
         {blueprintData && orchestrateData && (
-          <>
-            <div>
-              <span>Create Blueprint</span>
-              <div className="flex flex-col gap-4">
-                <span
-                  className="text-green-500 hover:cursor-pointer"
-                  onClick={() => handleStatusClick("SUCCESS")}
-                >
-                  Success: {cbSuccessCount}
-                </span>
-                <span
-                  className="text-red-500 hover:cursor-pointer"
-                  onClick={() => handleStatusClick("FAILED")}
-                >
-                  Failed: {cbFailedCount}
-                </span>
-                <span
-                  className="text-yellow-500 hover:cursor-pointer"
-                  onClick={() => handleStatusClick("IN PROGRESS")}
-                >
-                  In Progress: {cbInProgressCount}
-                </span>
-              </div>
+          <div className="flex flex-col gap-0 w-full">
+            <span>Create Blueprint</span>
+            <div className="flex gap-1 justify-around">
+              <span
+                className="text-green-500 hover:cursor-pointer"
+                onClick={() => handleStatusClick("SUCCESS")}
+              >
+                Success: {cbSuccessCount}
+              </span>
+              <span
+                className="text-red-500 hover:cursor-pointer"
+                onClick={() => handleStatusClick("FAILED")}
+              >
+                Failed: {cbFailedCount}
+              </span>
+              <span
+                className="text-yellow-500 hover:cursor-pointer"
+                onClick={() => handleStatusClick("IN_PROGRESS")}
+              >
+                In Progress: {cbInProgressCount}
+              </span>
             </div>
-            <Separator
-              orientation="vertical"
-              className="bg-gray-300 w-[1px] mx-10 h-full"
-            />
+            <Separator className="bg-gray-300 h-[1px] my-1 w-full" />
             <div>
               <span>Orchestrate</span>
-              <div className="flex flex-col gap-4">
+              <div className="flex gap-1 justify-around">
                 <span
                   className="text-green-500 hover:cursor-pointer"
                   onClick={() => handleStatusClick("SUCCESS")}
@@ -87,13 +98,37 @@ const StatusCard = ({ blueprintData, orchestrateData, onStatusClick }) => {
                 </span>
                 <span
                   className="text-yellow-500 hover:cursor-pointer"
-                  onClick={() => handleStatusClick("IN PROGRESS")}
+                  onClick={() => handleStatusClick("IN_PROGRESS")}
                 >
                   In Progress: {oInProgressCount}
                 </span>
               </div>
             </div>
-          </>
+            <Separator className="bg-gray-300 h-[1px] my-1 w-full" />
+            <div>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <div className="flex items-center gap-2">
+                    <span>RHEL Versions</span>
+                    <View className="hover:cursor-pointer m-2" size={24} />
+                  </div>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogTitle>RHEL AMI Versions</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Below are the available RHEL AMI versions extracted from the
+                    data.
+                  </AlertDialogDescription>
+                  {Object.entries(versions).map(([key, value]) => (
+                    <p key={key}>{value.toUpperCase() || key.toUpperCase()}</p>
+                  ))}
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>

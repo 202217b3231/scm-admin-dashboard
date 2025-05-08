@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 
 const ErrorCard = ({ title, errors, isLoading, fetchError, consoleLink }) => {
   return (
-    <Card className="w-150 shadow-xl gap-0">
+    <Card className="w-150 shadow-xl gap-0 rounded-sm">
       <CardHeader>
         <CardTitle>
           <a
