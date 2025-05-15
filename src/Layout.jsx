@@ -48,10 +48,7 @@ export default function MainLayout() {
 
   return (
     <SidebarProvider defaultOpen={isSidebarOpen}>
-      <div
-        className="main-layout"
-        style={{ display: "flex", height: "100vh", padding: "0" }}
-      >
+      <div className="main-layout flex h-full w-full p-0 m-0">
         <Sidebar collapsible="icon" open={isSidebarOpen}>
           <SidebarContent>
             <SidebarGroup>
@@ -84,10 +81,7 @@ export default function MainLayout() {
             </SidebarGroupContent>
           </SidebarGroup>
         </Sidebar>
-        <div
-          className="content"
-          style={{ flex: 1, padding: "0.5rem", overflow: "auto" }}
-        >
+        <div className="content flex-1 p-0 m-0 overflow-auto">
           <Outlet />
         </div>
       </div>

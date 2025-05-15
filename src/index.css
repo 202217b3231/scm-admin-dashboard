@@ -9,6 +9,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   line-height: 1.5;
+  padding: auto;
+  margin: auto;
 }
 @theme inline {
   --color-background: var(--background);
@@ -162,15 +164,21 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+}
 
-  /* .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  } */
+.Btn {
+  color: #090909;
+  padding: 0.1em 1em;
+  font-weight: 600;
+  font-size: 16px;
+  background: #e8e8e8;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  box-shadow: 0.15em 0.15em;
+}
+
+.Btn:active {
+  color: #666;
+  box-shadow: 0.1em 0.1em;
 }
